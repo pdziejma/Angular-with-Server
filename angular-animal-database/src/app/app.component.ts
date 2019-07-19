@@ -100,15 +100,16 @@ export class AppComponent implements OnInit {
 
   //calls update from service and subscribes
   update( name : string, color : string, size : string, dob : Date, animal : Animal ) {
+    let _id = animal._id;
     //check if all fields are filled out
     if ( !name || !color || !size || !dob ) {
       alert( 'All fields are required. Please finish filling out the form or hit cancel.' );
     } else {
       this.expandCompareRow( animal );
       this.animalService
-        .updateAnimal( { name, color, size, dob } as Animal, animal._id )
+        .updateAnimal( { _id, name, color, size, dob } as Animal, animal._id )
         .subscribe();
-      this.animals.splice( this.animals.indexOf( animal ), 1, { name, color, size, dob } as Animal );
+      this.animals.splice( this.animals.indexOf( animal ), 1, { _id, name, color, size, dob } as Animal );
     }
   }
 }

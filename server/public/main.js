@@ -339,6 +339,7 @@ let AppComponent = class AppComponent {
     }
     //calls update from service and subscribes
     update(name, color, size, dob, animal) {
+        let _id = animal._id;
         //check if all fields are filled out
         if (!name || !color || !size || !dob) {
             alert('All fields are required. Please finish filling out the form or hit cancel.');
@@ -346,9 +347,9 @@ let AppComponent = class AppComponent {
         else {
             this.expandCompareRow(animal);
             this.animalService
-                .updateAnimal({ name, color, size, dob }, animal._id)
+                .updateAnimal({ _id, name, color, size, dob }, animal._id)
                 .subscribe();
-            this.animals.splice(this.animals.indexOf(animal), 1, { name, color, size, dob });
+            this.animals.splice(this.animals.indexOf(animal), 1, { _id, name, color, size, dob });
         }
     }
 };

@@ -5,6 +5,7 @@ import {
 import { Animal } from './animal.model';
 import { AnimalService } from './animal.service';
 import { formatDate } from "@angular/common";
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,29 @@ import { formatDate } from "@angular/common";
 export class AppComponent implements OnInit {
   title = 'Animal Database';
   animalDescription = 'Select an animal to see its description.';
+  //labels for color and size dropdowns
+  defaultColor = "Choose a color";
+  defaultSize = "Choose a size";
   //all color options for select dropdown
   colorOptions = [ 'Black', 'Blue', 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Red', 'Violet', 'White', 'Yellow' ];
   //all size options for select dropdown
   sizeOptions = [ 'Tiny', 'Small', 'Medium', 'Large', 'Huge' ];
-  rowExpanded : Boolean[];
   animal : Animal;
   animals : Animal[];
+
+  public addform: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    color: new FormControl(this.defaultColor),
+    size: new FormControl(this.defaultSize),
+    date: new FormControl('')
+  });
+
+  public form: FormGroup = new FormGroup({
+    name: new FormControl(''),
+    color: new FormControl(''),
+    size: new FormControl(''),
+    date: new FormControl('')
+  });
 
   
   constructor( private animalService : AnimalService ) {
@@ -30,6 +47,15 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     //calls the server on init of website
     this.showAnimals();
+  }
+
+  formDefault( animal : Animal ) {
+    this.form.setValue({
+      name : animal.name,
+      color : animal.color,
+      size : animal.size,
+      date : new Date(animal.dob)
+    });
   }
 
   //gets the animals from the server
@@ -74,7 +100,7 @@ export class AppComponent implements OnInit {
   //calls add from service and subscribes
   add( name : string, color : string, size : string, dob : Date ) : void {
     //check if all fields are filled out
-    if ( !name || !color || !size || !dob ) {
+    if ( !name || !color || color == this.defaultColor || size == this.defaultSize || !size || !dob ) {
         alert( 'All fields are required. Please finish filling out the form.' );
     } else {
       //add animal to server7
@@ -82,6 +108,10 @@ export class AppComponent implements OnInit {
         .addAnimal( { name, color, size, dob } as Animal )
         .subscribe( animal => {
           this.animals.push( animal );
+      });
+      this.addform.reset({
+        color: this.defaultColor,
+        size: this.defaultSize
       });
     }
   }
@@ -102,7 +132,7 @@ export class AppComponent implements OnInit {
   update( name : string, color : string, size : string, dob : Date, animal : Animal ) {
     let _id = animal._id;
     //check if all fields are filled out
-    if ( !name || !color || !size || !dob ) {
+    if ( !name || !color || color == this.defaultColor || size == this.defaultSize || !size || !dob ) {
       alert( 'All fields are required. Please finish filling out the form or hit cancel.' );
     } else {
       this.expandCompareRow( animal );

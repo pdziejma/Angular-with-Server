@@ -41,7 +41,7 @@ module.exports = "<select class = 'select'\n    (change) = 'onChange( animalDrop
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>\n  Welcome to the {{ title }}!\n</h1>\n\n<div class = 'app-root'>\n  <!--Displays animal description and changes on dropdown-->\n  <p> {{ animalDescription }} </p>\n  <!--Fills dropdown with server data-->\n  <animals\n    [animals] = 'animals'\n    (onAnimalSelected) = 'animalSelected($event)'>\n  </animals>\n  <!--Adding animal form-->\n  <form>\n    <h3> Add an Animal: </h3>\n    <!--Name Input for form-->\n    <mat-form-field class = 'field'>\n      <input name = 'name' #newName\n        matInput placeholder = \"Type a Name\">\n    </mat-form-field>\n    <br>\n\n    <!--Color Input for form-->\n    <div class = 'field'>\n      <select name = 'color' #newColor>\n        <option\n          [value] = '' selected disabled hidden> Choose a color </option>\n        <option\n          *ngFor = 'let c of colorOptions;'\n          [value] = 'c'> {{ c }}\n        </option>\n      </select>\n    </div>\n    <br>\n\n    <!--Size Input for form-->\n    <div class = 'field'>\n      <select name = 'size' #newSize>\n        <option\n          [value] = '' selected disabled hidden> Choose a size </option>\n        <option\n          *ngFor = 'let s of sizeOptions;'\n          [value] = 's'> {{ s }}\n        </option>\n      </select>\n    </div>\n    <!--Date Input for form-->\n    <mat-form-field>\n      <input matInput [matDatepicker] = 'newDob' placeholder = 'Choose a birth date'>\n      <mat-datepicker-toggle matSuffix [for] = 'newDob'></mat-datepicker-toggle>\n      <mat-datepicker #newDob></mat-datepicker>\n    </mat-form-field>\n    <!--Submit button for form and reset values-->\n    <div>\n      <button class = 'button' type = 'button' (click) =\n        \"add(newName.value, newColor.value, newSize.value, newDob._validSelected);\n        newName.value = '';\n        newColor.value = 'Choose a color';\n        newSize.value = 'Choose a size';\n        newDob._validSelected = '';\">\n        Add\n      </button>\n    </div>\n  </form>\n\n  <!--Displaying table for animal database-->\n  <h3 class='ui header'> Animal Database: </h3>\n  <table>\n    <!--Headers-->\n    <th> Name </th>\n    <th> Color </th>\n    <th> Size </th>\n    <th> Date of Birth </th>\n\n    <!--Data-->\n    <tr *ngFor = 'let a of animals; let i = index'>\n      <td>{{ a.name }}</td>\n      <td>{{ a.color }}</td>\n      <td>{{ a.size }}</td>\n      <td>{{ dateFormatter(a.dob) }}</td>\n      <!--Delete button-->\n      <td>\n        <button class = 'button' type = 'button' (click) = \"delete(a);\">\n          Delete\n        </button>\n      </td>\n\n      <!--Update button-->\n      <td>\n        <!--For showing and hiding update form-->\n        <div *ngIf = \"a.expanded\">\n\n          <!--Form to update animal-->\n          <!--Name-->\n          <mat-form-field class = 'field'>\n            <input name = 'upName' #upName\n              matInput placeholder = \"Type a Name\">\n          </mat-form-field>\n          <!--Color-->\n          <div class = 'field'>\n            <select name = 'upColor' #upColor>\n              <option\n                [value] = '' selected disabled hidden> Choose a color </option>\n              <option\n                *ngFor = 'let c of colorOptions;'\n                [value] = 'c'> {{ c }}\n              </option>\n            </select>\n          </div>\n          <br>\n          <!--Size-->\n          <div class = 'field'>\n            <select name = 'upSize' #upSize>\n              <option\n                [value] = '' selected disabled hidden> Choose a size </option>\n              <option\n                *ngFor = 'let s of sizeOptions;'\n                [value] = 's'> {{ s }}\n              </option>\n            </select>\n          </div>\n          <!--Birthday-->\n          <mat-form-field>\n            <input matInput [matDatepicker] = 'upDob' placeholder = 'Choose a birth date'>\n            <mat-datepicker-toggle matSuffix [for] = 'upDob'></mat-datepicker-toggle>\n            <mat-datepicker #upDob></mat-datepicker>\n          </mat-form-field>\n\n          <!--For showing and hiding submit/cancel buttons-->\n          <div>\n            <button class = 'btn1' type = 'button'\n              (click) = \"update(upName.value, upColor.value, upSize.value, upDob._validSelected, a)\">\n              Submit\n            </button>\n\n            <button class = 'btn2' type = 'button' (click) = \"expandCompareRow(a)\">\n              Cancel\n            </button>\n          </div>\n\n        </div>\n        \n        <!--For showing and hiding update button-->\n        <div *ngIf = \"!a.expanded\">\n          <button class = 'button' type = 'button' (click) = \"expandCompareRow(a)\">\n              Update\n          </button>\n        </div>\n        \n      </td>\n    </tr>\n  </table>\n\n</div>\n<!--App messages for understanding communication with server-->\n<app-messages></app-messages>\n"
+module.exports = "<h1>\n  Welcome to the {{ title }}!\n</h1>\n\n<div class = 'app-root'>\n  <!--Displays animal description and changes on dropdown-->\n  <p> {{ animalDescription }} </p>\n  <!--Fills dropdown with server data-->\n  <animals\n    [animals] = 'animals'\n    (onAnimalSelected) = 'animalSelected($event)'>\n  </animals>\n  <!--Adding animal form-->\n  <form [formGroup] = \"addform\">\n    <h3> Add an Animal: </h3>\n    <!--Name Input for form-->\n    <mat-form-field class = 'field'>\n      <input name = 'name' #newName formControlName = \"name\"\n        matInput placeholder = \"Type a Name\">\n    </mat-form-field>\n    <br>\n\n    <!--Color Input for form-->\n    <div class = 'field'>\n      <select name = 'color' #newColor formControlName = \"color\">\n        <option\n          [value] = '' selected disabled hidden> Choose a color </option>\n        <option\n          *ngFor = 'let c of colorOptions;'\n          [value] = 'c'> {{ c }}\n        </option>\n      </select>\n    </div>\n    <br>\n\n    <!--Size Input for form-->\n    <div class = 'field'>\n      <select name = 'size' #newSize formControlName = \"size\">\n        <option\n          [value] = '' selected disabled hidden> Choose a size </option>\n        <option\n          *ngFor = 'let s of sizeOptions;'\n          [value] = 's'> {{ s }}\n        </option>\n      </select>\n    </div>\n    <!--Date Input for form-->\n    <mat-form-field>\n      <input matInput [matDatepicker] = 'newDob' placeholder = 'Choose a birth date' formControlName = \"date\">\n      <mat-datepicker-toggle matSuffix [for] = 'newDob'></mat-datepicker-toggle>\n      <mat-datepicker #newDob></mat-datepicker>\n    </mat-form-field>\n    <!--Submit button for form and reset values-->\n    <div>\n      <button class = 'button' type = 'button' (click) =\n        \"add(newName.value, newColor.value, newSize.value, newDob._validSelected);\">\n        Add\n      </button>\n    </div>\n  </form>\n\n  <!--Displaying table for animal database-->\n  <h3 class='ui header'> Animal Database: </h3>\n  <table>\n    <!--Headers-->\n    <th> Name </th>\n    <th> Color </th>\n    <th> Size </th>\n    <th> Date of Birth </th>\n\n    <!--Data-->\n    <tr *ngFor = 'let a of animals; let i = index'>\n      <td>{{ a.name }}</td>\n      <td>{{ a.color }}</td>\n      <td>{{ a.size }}</td>\n      <td>{{ dateFormatter(a.dob) }}</td>\n      <!--Delete button-->\n      <td>\n        <button class = 'button' type = 'button' (click) = \"delete(a);\">\n          Delete\n        </button>\n      </td>\n\n      <!--Update button-->\n      <td>\n        <!--For showing and hiding update form-->\n        <div *ngIf = \"a.expanded\">\n\n          <!--Form to update animal-->\n          <form [formGroup] = \"form\">\n          <!--Name-->\n          <mat-form-field class = 'field'>\n            <input name = 'upName' #upName formControlName = \"name\"\n              matInput placeholder = \"Type a Name\">\n          </mat-form-field>\n          <!--Color-->\n          <div class = 'field'>\n            <select name = 'upColor' #upColor formControlName = \"color\">\n              <option\n                *ngFor = 'let c of colorOptions;'\n                [value] = 'c'> {{ c }}\n              </option>\n            </select>\n          </div>\n          <br>\n          <!--Size-->\n          <div class = 'field'>\n            <select name = 'upSize' #upSize formControlName = \"size\">\n              <option\n                *ngFor = 'let s of sizeOptions;'\n                [value] = 's'> {{ s }}\n              </option>\n            </select>\n          </div>\n          <!--Birthday-->\n          <mat-form-field>\n            <input matInput [matDatepicker] = 'upDob' placeholder = 'Choose a birth date' formControlName=\"date\">\n            <mat-datepicker-toggle matSuffix [for] = 'upDob'></mat-datepicker-toggle>\n            <mat-datepicker #upDob></mat-datepicker>\n          </mat-form-field>\n\n          <!--For showing and hiding submit/cancel buttons-->\n          <div>\n            <button class = 'btn1' type = 'button'\n              (click) = \"update(upName.value, upColor.value, upSize.value, upDob._validSelected, a)\">\n              Submit\n            </button>\n\n            <button class = 'btn2' type = 'button' (click) = \"expandCompareRow(a)\">\n              Cancel\n            </button>\n\n          </div>\n\n        </form>\n        </div>\n        \n        <!--For showing and hiding update button-->\n        <div *ngIf = \"!a.expanded\">\n          <button class = 'button' type = 'button' (click) = \"expandCompareRow(a); formDefault(a);\">\n              Update\n          </button>\n        </div>\n        \n      </td>\n    </tr>\n  </table>\n\n</div>\n<!--App messages for understanding communication with server-->\n<app-messages></app-messages>\n"
 
 /***/ }),
 
@@ -257,6 +257,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _animal_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./animal.service */ "./src/app/animal.service.ts");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+
 
 
 
@@ -266,14 +268,37 @@ let AppComponent = class AppComponent {
         this.animalService = animalService;
         this.title = 'Animal Database';
         this.animalDescription = 'Select an animal to see its description.';
+        //labels for color and size dropdowns
+        this.defaultColor = "Choose a color";
+        this.defaultSize = "Choose a size";
         //all color options for select dropdown
         this.colorOptions = ['Black', 'Blue', 'Brown', 'Gray', 'Green', 'Orange', 'Pink', 'Red', 'Violet', 'White', 'Yellow'];
         //all size options for select dropdown
         this.sizeOptions = ['Tiny', 'Small', 'Medium', 'Large', 'Huge'];
+        this.addform = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormGroup"]({
+            name: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](''),
+            color: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](this.defaultColor),
+            size: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](this.defaultSize),
+            date: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('')
+        });
+        this.form = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormGroup"]({
+            name: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](''),
+            color: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](''),
+            size: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](''),
+            date: new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"]('')
+        });
     }
     ngOnInit() {
         //calls the server on init of website
         this.showAnimals();
+    }
+    formDefault(animal) {
+        this.form.setValue({
+            name: animal.name,
+            color: animal.color,
+            size: animal.size,
+            date: new Date(animal.dob)
+        });
     }
     //gets the animals from the server
     showAnimals() {
@@ -315,7 +340,7 @@ let AppComponent = class AppComponent {
     //calls add from service and subscribes
     add(name, color, size, dob) {
         //check if all fields are filled out
-        if (!name || !color || !size || !dob) {
+        if (!name || !color || color == this.defaultColor || size == this.defaultSize || !size || !dob) {
             alert('All fields are required. Please finish filling out the form.');
         }
         else {
@@ -324,6 +349,10 @@ let AppComponent = class AppComponent {
                 .addAnimal({ name, color, size, dob })
                 .subscribe(animal => {
                 this.animals.push(animal);
+            });
+            this.addform.reset({
+                color: this.defaultColor,
+                size: this.defaultSize
             });
         }
     }
@@ -341,7 +370,7 @@ let AppComponent = class AppComponent {
     update(name, color, size, dob, animal) {
         let _id = animal._id;
         //check if all fields are filled out
-        if (!name || !color || !size || !dob) {
+        if (!name || !color || color == this.defaultColor || size == this.defaultSize || !size || !dob) {
             alert('All fields are required. Please finish filling out the form or hit cancel.');
         }
         else {
@@ -387,6 +416,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _animals_animals_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./animals/animals.component */ "./src/app/animals/animals.component.ts");
 /* harmony import */ var _messages_messages_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./messages/messages.component */ "./src/app/messages/messages.component.ts");
 /* harmony import */ var _material_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./material.module */ "./src/app/material.module.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+
 
 
 
@@ -408,6 +439,8 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         imports: [
             _material_module__WEBPACK_IMPORTED_MODULE_8__["MaterialModule"],
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_9__["FormsModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_9__["ReactiveFormsModule"],
             _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
         ],

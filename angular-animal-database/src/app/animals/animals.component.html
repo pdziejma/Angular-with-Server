@@ -1,0 +1,10 @@
+<select class = 'select'
+    (change) = 'onChange( animalDropdown.value )'
+    #animalDropdown>
+    <option class = 'option'
+        *ngFor = 'let a of animals; let i = index'
+        [class.selected] = 'isSelected( a )'
+        [value] = 'i'>
+        {{ a.name }}
+    </option>
+</select>

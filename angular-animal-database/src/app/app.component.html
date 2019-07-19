@@ -1,0 +1,154 @@
+<h1>
+  Welcome to the {{ title }}!
+</h1>
+
+<div class = 'app-root'>
+  <!--Displays animal description and changes on dropdown-->
+  <p> {{ animalDescription }} </p>
+  <!--Fills dropdown with server data-->
+  <animals
+    [animals] = 'animals'
+    (onAnimalSelected) = 'animalSelected($event)'>
+  </animals>
+  <!--Adding animal form-->
+  <form class = 'ui large form segment'>
+    <h3 class = 'ui header'> Add an Animal: </h3>
+    <!--Name Input for form-->
+    <div class = 'field'>
+      <input name = 'name' #newName
+        placeholder = 'Type in a name'>
+    </div>
+    <br>
+    <!--Color Input for form-->
+    <div class = 'field'>
+      <select name = 'color' #newColor>
+        <option
+          [value] = '' selected disabled hidden> Choose a color </option>
+        <option
+          *ngFor = 'let c of colorOptions;'
+          [value] = 'c'> {{ c }}
+        </option>
+      </select>
+    </div>
+    <br>
+    <!--Size Input for form-->
+    <div class = 'field'>
+      <select name = 'size' #newSize>
+        <option
+          [value] = '' selected disabled hidden> Choose a size </option>
+        <option
+          *ngFor = 'let s of sizeOptions;'
+          [value] = 's'> {{ s }}
+        </option>
+      </select>
+    </div>
+    <!--Date Input for form-->
+    <mat-form-field>
+      <input matInput [matDatepicker] = 'newDob' placeholder = 'Choose a birth date'>
+      <mat-datepicker-toggle matSuffix [for] = 'newDob'></mat-datepicker-toggle>
+      <mat-datepicker #newDob></mat-datepicker>
+    </mat-form-field>
+    <!--Submit button for form and reset values-->
+    <div>
+      <button class = 'button' type = 'button' (click) =
+        "add(newName.value, newColor.value, newSize.value, newDob._validSelected);
+        newName.value = '';
+        newColor.value = 'Choose a color';
+        newSize.value = 'Choose a size';
+        newDob._validSelected = '';">
+        Add
+      </button>
+    </div>
+  </form>
+
+  <!--Displaying table for animal database-->
+  <h3 class='ui header'> Animal Database: </h3>
+  <table>
+    <!--Headers-->
+    <th> Name </th>
+    <th> Color </th>
+    <th> Size </th>
+    <th> Date of Birth </th>
+
+    <!--Data-->
+    <tr *ngFor = 'let a of animals; let i = index'>
+      <td>{{ a.name }}</td>
+      <td>{{ a.color }}</td>
+      <td>{{ a.size }}</td>
+      <td>{{ dateFormatter(a.dob) }}</td>
+      <!--Delete button-->
+      <td>
+        <button class = 'button' type = 'button' (click) = "delete(a);">
+          Delete
+        </button>
+      </td>
+
+      <!--Update button-->
+      <td>
+        <!--For showing and hiding update form-->
+        <div *ngIf = "a.expanded">
+
+          <!--Form to update animal-->
+          <div class = 'field'>
+            <input name = 'upName' #upName
+              placeholder = 'Type in a name'>
+          </div>
+          <br>
+
+          <div class = 'field'>
+            <select name = 'upColor' #upColor>
+              <option
+                [value] = '' selected disabled hidden> Choose a color </option>
+              <option
+                *ngFor = 'let c of colorOptions;'
+                [value] = 'c'> {{ c }}
+              </option>
+            </select>
+          </div>
+          <br>
+      
+          <div class = 'field'>
+            <select name = 'upSize' #upSize>
+              <option
+                [value] = '' selected disabled hidden> Choose a size </option>
+              <option
+                *ngFor = 'let s of sizeOptions;'
+                [value] = 's'> {{ s }}
+              </option>
+            </select>
+          </div>
+      
+          <mat-form-field>
+            <input matInput [matDatepicker] = 'upDob' placeholder = 'Choose a birth date'>
+            <mat-datepicker-toggle matSuffix [for] = 'upDob'></mat-datepicker-toggle>
+            <mat-datepicker #upDob></mat-datepicker>
+          </mat-form-field>
+
+          <!--For showing and hiding submit/cancel buttons-->
+          <div>
+            <button class = 'btn1' type = 'button'
+              (click) = "update(upName.value, upColor.value, upSize.value, upDob._validSelected, a)">
+              Submit
+            </button>
+
+            <button class = 'btn2' type = 'button' (click) = "expandCompareRow(a)">
+              Cancel
+            </button>
+          </div>
+
+        </div>
+        
+        <!--For showing and hiding update button-->
+        <div *ngIf = "!a.expanded">
+          <button class = 'button' type = 'button' (click) = "expandCompareRow(a)">
+              Update
+          </button>
+        </div>
+        
+      </td>
+    </tr>
+  </table>
+
+</div>
+<!--App messages for understanding communication with server-->
+<app-messages></app-messages>

@@ -11,14 +11,15 @@
     (onAnimalSelected) = 'animalSelected($event)'>
   </animals>
   <!--Adding animal form-->
-  <form class = 'ui large form segment'>
-    <h3 class = 'ui header'> Add an Animal: </h3>
+  <form>
+    <h3> Add an Animal: </h3>
     <!--Name Input for form-->
-    <div class = 'field'>
+    <mat-form-field class = 'field'>
       <input name = 'name' #newName
-        placeholder = 'Type in a name'>
-    </div>
+        matInput placeholder = "Type a Name">
+    </mat-form-field>
     <br>
+
     <!--Color Input for form-->
     <div class = 'field'>
       <select name = 'color' #newColor>
@@ -31,6 +32,7 @@
       </select>
     </div>
     <br>
+
     <!--Size Input for form-->
     <div class = 'field'>
       <select name = 'size' #newSize>
@@ -89,12 +91,12 @@
         <div *ngIf = "a.expanded">
 
           <!--Form to update animal-->
-          <div class = 'field'>
+          <!--Name-->
+          <mat-form-field class = 'field'>
             <input name = 'upName' #upName
-              placeholder = 'Type in a name'>
-          </div>
-          <br>
-
+              matInput placeholder = "Type a Name">
+          </mat-form-field>
+          <!--Color-->
           <div class = 'field'>
             <select name = 'upColor' #upColor>
               <option
@@ -106,7 +108,7 @@
             </select>
           </div>
           <br>
-      
+          <!--Size-->
           <div class = 'field'>
             <select name = 'upSize' #upSize>
               <option
@@ -117,7 +119,7 @@
               </option>
             </select>
           </div>
-      
+          <!--Birthday-->
           <mat-form-field>
             <input matInput [matDatepicker] = 'upDob' placeholder = 'Choose a birth date'>
             <mat-datepicker-toggle matSuffix [for] = 'upDob'></mat-datepicker-toggle>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Animal } from './animal.model';
+import { Animal } from '../animal.model';
 import { Observable, of } from 'rxjs';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

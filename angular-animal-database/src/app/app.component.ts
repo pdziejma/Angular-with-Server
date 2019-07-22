@@ -3,9 +3,9 @@ import {
   OnInit
 } from '@angular/core';
 import { Animal } from './animal.model';
-import { AnimalService } from './animal.service';
+import { AnimalService } from './services/animal.service';
 import { formatDate } from "@angular/common";
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -26,18 +26,18 @@ export class AppComponent implements OnInit {
   animal : Animal;
   animals : Animal[];
 
-  public addform: FormGroup = new FormGroup({
-    name: new FormControl(''),
+  public addform : FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
     color: new FormControl(this.defaultColor),
     size: new FormControl(this.defaultSize),
-    date: new FormControl('')
+    date: new FormControl('', [Validators.required])
   });
 
-  public form: FormGroup = new FormGroup({
-    name: new FormControl(''),
+  public form : FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required]),
     color: new FormControl(''),
     size: new FormControl(''),
-    date: new FormControl('')
+    date: new FormControl('', [Validators.required])
   });
 
   
@@ -47,6 +47,11 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     //calls the server on init of website
     this.showAnimals();
+  }
+
+  getErrorMessage( form : FormGroup, field : string ) {
+      return form.get(field).hasError('required') ? 'You must enter a value' :
+      '';
   }
 
   formDefault( animal : Animal ) {

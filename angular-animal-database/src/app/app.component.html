@@ -16,10 +16,11 @@
     <!--Name Input for form-->
     <mat-form-field class = 'field'>
       <input name = 'name' #newName formControlName = "name"
-        matInput placeholder = "Type a Name">
+        matInput placeholder = "Type a Name" required>
+        <mat-error *ngIf = "addform.invalid">{{ getErrorMessage( addform, 'name' ) }}</mat-error>
     </mat-form-field>
     <br>
-
+    
     <!--Color Input for form-->
     <div class = 'field'>
       <select name = 'color' #newColor formControlName = "color">
@@ -44,12 +45,16 @@
         </option>
       </select>
     </div>
+
     <!--Date Input for form-->
     <mat-form-field>
-      <input matInput [matDatepicker] = 'newDob' placeholder = 'Choose a birth date' formControlName = "date">
+      <input matInput [matDatepicker] = 'newDob' placeholder = 'Choose a birth date' formControlName = "date" required>
+      <mat-error *ngIf = "addform.invalid">{{ getErrorMessage( addform, 'date' ) }}</mat-error>
       <mat-datepicker-toggle matSuffix [for] = 'newDob'></mat-datepicker-toggle>
       <mat-datepicker #newDob></mat-datepicker>
     </mat-form-field>
+    <br>
+
     <!--Submit button for form and reset values-->
     <div>
       <button class = 'button' type = 'button' (click) =
@@ -88,11 +93,15 @@
 
           <!--Form to update animal-->
           <form [formGroup] = "form">
+
           <!--Name-->
           <mat-form-field class = 'field'>
             <input name = 'upName' #upName formControlName = "name"
-              matInput placeholder = "Type a Name">
+              matInput placeholder = "Type a Name" required>
+              <mat-error *ngIf = "addform.invalid">{{ getErrorMessage( form, 'name' ) }}</mat-error>
           </mat-form-field>
+          <br>
+
           <!--Color-->
           <div class = 'field'>
             <select name = 'upColor' #upColor formControlName = "color">
@@ -103,6 +112,7 @@
             </select>
           </div>
           <br>
+
           <!--Size-->
           <div class = 'field'>
             <select name = 'upSize' #upSize formControlName = "size">
@@ -112,12 +122,15 @@
               </option>
             </select>
           </div>
+
           <!--Birthday-->
           <mat-form-field>
-            <input matInput [matDatepicker] = 'upDob' placeholder = 'Choose a birth date' formControlName="date">
+            <input matInput [matDatepicker] = 'upDob' placeholder = 'Choose a birth date' formControlName = "date" required>
+            <mat-error *ngIf = "form.invalid">{{ getErrorMessage( form, 'date' ) }}</mat-error>
             <mat-datepicker-toggle matSuffix [for] = 'upDob'></mat-datepicker-toggle>
             <mat-datepicker #upDob></mat-datepicker>
           </mat-form-field>
+          <br>
 
           <!--For showing and hiding submit/cancel buttons-->
           <div>

@@ -106,7 +106,10 @@ export class AppComponent implements OnInit {
   add( name : string, color : string, size : string, dob : Date ) : void {
     //check if all fields are filled out
     if ( !name || !color || color == this.defaultColor || size == this.defaultSize || !size || !dob ) {
-        alert( 'All fields are required. Please finish filling out the form.' );
+      //error messages
+      alert( 'All fields are required. Please finish filling out the form.' );
+      this.addform.get('name').markAsTouched();
+      this.addform.get('date').markAsTouched();
     } else {
       //add animal to server7
       this.animalService

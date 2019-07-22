@@ -20,7 +20,7 @@
         <mat-error *ngIf = "addform.invalid">{{ getErrorMessage( addform, 'name' ) }}</mat-error>
     </mat-form-field>
     <br>
-    
+
     <!--Color Input for form-->
     <div class = 'field'>
       <select name = 'color' #newColor formControlName = "color">
@@ -54,7 +54,7 @@
       <mat-datepicker #newDob></mat-datepicker>
     </mat-form-field>
     <br>
-
+    
     <!--Submit button for form and reset values-->
     <div>
       <button class = 'button' type = 'button' (click) =
